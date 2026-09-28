@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>UNICAL Banking &amp; Finance | Digital Attendance System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root{
+    --navy:#0B2E4A;
+    --navy-deep:#081F32;
+    --navy-light:#12405F;
+    --teal:#0E7C7B;
+    --green:#17A673;
+    --green-light:#E7F7F1;
+    --amber:#DB9A2C;
+    --red:#D64545;
+    --bg:#F3F7F6;
+    --surface:#FFFFFF;
+    --border:#DEE8E5;
+    --text:#0F2420;
+    --text-muted:#5C726D;
+    --radius-sm:8px;
+    --radius-md:14px;
+    --radius-lg:20px;
+    --shadow:0 2px 10px rgba(11,46,74,0.07);
+    --shadow-lift:0 10px 30px rgba(11,46,74,0.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  h1,h2,h3,h4,.font-display{font-family:'Manrope',system-ui,sans-serif;}
+  button{font-family:inherit;cursor:pointer;}
+  input,select{font-family:inherit;}
+  a{color:inherit;}
+  ::selection{background:var(--green-light);}
+
+  /* ---------- Scrollbar polish ---------- */
+  ::-webkit-scrollbar{width:8px;height:8px;}
+  ::-webkit-scrollbar-thumb{background:#C7D7D3;border-radius:8px;}
+
+  /* ================= LOGIN / PORTAL SCREEN ================= */
+  #authScreen{
+    min-height:100vh;
+    display:flex;
+    align-items:stretch;
+  }
+  .auth-brand{
+    flex:1 1 42%;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(23,166,115,0.35), transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(14,124,123,0.4), transparent 50%),
+      linear-gradient(160deg,var(--navy-deep),var(--navy) 65%,var(--navy-light));
+    color:#fff;
+    padding:56px 48px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    position:relative;
+    overflow:hidden;
+    min-height:340px;
+  }
+  .auth-brand::after{
+    content:"";
+    position:absolute;
+    right:-120px; bottom:-120px;
+    width:340px;height:340px;
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:50%;
+  }
+  .brand-mark{
+    display:flex;align-items:center;gap:12px;
+  }
+  .brand-mark .crest{
+    width:46px;height:46px;border-radius:12px;
+    background:linear-gradient(135deg,var(--green),var(--teal));
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:18px;letter-spacing:0.5px;
+    box-shadow:0 6px 18px rgba(23,166,115,0.4);
+  }
+  .brand-mark .txt{line-height:1.25;}
+  .brand-mark .txt .u1{font-size:13px;letter-spacing:1px;color:#BFE0D6;font-weight:600;}
+  .brand-mark .txt .u2{font-size:16px;font-weight:700;}
+  .auth-brand .hero{margin-top:48px;position:relative;z-index:1;}
+  .level-chip{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.22);
+    padding:6px 14px;border-radius:999px;
+    font-size:13px;font-weight:700;letter-spacing:0.4px;
+    margin-bottom:18px;
+  }
+  .level-chip i{color:var(--green);}
+  .auth-brand .hero h1{
+    font-size:clamp(28px,3.4vw,40px);
+    line-height:1.12;margin:0 0 14px;font-weight:800;
+  }
+  .auth-brand .hero p{
+    font-size:15.5px;color:#CFE4DE;line-height:1.6;max-width:420px;margin:0;
+  }
+  .auth-brand .stat-row{
+    display:flex;gap:26px;position:relative;z-index:1;flex-wrap:wrap;
+  }
+  .auth-brand .stat-row div{min-width:90px;}
+  .auth-brand .stat-row .num{font-size:22px;font-weight:800;font-family:'Manrope';}
+  .auth-brand .stat-row .lbl{font-size:12px;color:#9FC3BA;margin-top:2px;}
+
+  .auth-panel{
+    flex:1 1 58%;
+    display:flex;align-items:center;justify-content:center;
+    padding:40px 24px;
+  }
+  .auth-card{
+    width:100%;max-width:440px;
+  }
+  .auth-card h2{font-size:23px;margin:0 0 4px;font-weight:800;}
+  .auth-card .sub{color:var(--text-muted);font-size:14px;margin:0 0 26px;}
+
+  .role-tabs{
+    display:flex;background:#E9F1EF;border-radius:12px;padding:4px;margin-bottom:24px;
+  }
+  .role-tabs button{
+    flex:1;border:none;background:transparent;padding:10px 6px;border-radius:9px;
+    font-size:13.5px;font-weight:700;color:var(--text-muted);
+    display:flex;align-items:center;justify-content:center;gap:7px;
+    transition:background .2s,color .2s,box-shadow .2s;
+  }
+  .role-tabs button.active{background:#fff;color:var(--navy);box-shadow:var(--shadow);}
+
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12.5px;font-weight:700;color:var(--text-muted);margin-bottom:6px;letter-spacing:.2px;}
+  .field input{
+    width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--border);
+    font-size:14.5px;background:#fbfdfd;transition:border-color .15s, box-shadow .15s;
+  }
+  .field input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(23,166,115,0.14);}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:12px 18px;border-radius:10px;border:none;font-weight:700;font-size:14.5px;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:linear-gradient(135deg,var(--green),var(--teal));color:#fff;box-shadow:0 6px 16px rgba(23,166,115,0.32);}
+  .btn-primary:hover{box-shadow:0 8px 20px rgba(23,166,115,0.42);}
+  .btn-outline{background:#fff;border:1.5px solid var(--border);color:var(--text);}
+  .btn-outline:hover{border-color:var(--green);color:var(--teal);}
+  .btn-danger{background:#FCEBEB;color:var(--red);}
+  .btn-danger:hover{background:#F9D7D7;}
+  .btn-block{width:100%;}
+  .btn-sm{padding:8px 12px;font-size:13px;border-radius:8px;}
+  .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+
+  .auth-submit{margin-top:6px;}
+  .auth-error{
+    background:#FCEBEB;color:var(--red);font-size:13px;font-weight:600;
+    padding:10px 12px;border-radius:9px;margin-bottom:14px;display:none;
+    align-items:center;gap:8px;
+  }
+  .auth-error.show{display:flex;}
+
+  /* ================= APP SHELL ================= */
+  #appScreen{display:none;min-height:100vh;}
+  .app-shell{display:flex;min-height:100vh;}
+
+  .sidebar{
+    width:250px;background:linear-gradient(180deg,var(--navy-deep),var(--navy));
+    color:#fff;flex-shrink:0;display:flex;flex-direction:column;
+    padding:22px 16px;position:sticky;top:0;height:100vh;
+  }
+  .sidebar .brand-mark{padding:4px 8px 22px;}
+  .sidebar .brand-mark .crest{width:38px;height:38px;font-size:15px;border-radius:10px;}
+  .sidebar .brand-mark .u2{font-size:14px;}
+  .sidebar .brand-mark .u1{font-size:11px;}
+  .nav-group{margin-top:6px;}
+  .nav-item{
+    display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;
+    color:#B9CDC7;font-size:14px;font-weight:600;margin-bottom:4px;
+    border:none;background:transparent;width:100%;text-align:left;
+    transition:background .15s,color .15s;
+  }
+  .nav-item i{width:18px;text-align:center;font-size:15px;}
+  .nav-item:hover{background:rgba(255,255,255,0.06);color:#fff;}
+  .nav-item.active{background:rgba(23,166,115,0.18);color:#fff;box-shadow:inset 3px 0 0 var(--green);}
+  .sidebar-footer{margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,0.1);}
+  .user-chip{display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;background:rgba(255,255,255,0.05);margin-bottom:8px;}
+  .user-chip .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--teal));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;}
+  .user-chip .meta{overflow:hidden;}
+  .user-chip .meta .n{font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .user-chip .meta .r{font-size:11px;color:#9FC3BA;}
+
+  .main-col{flex:1;min-width:0;display:flex;flex-direction:column;}
+  .topbar{
+    background:#fff;border-bottom:1px solid var(--border);
+    padding:16px 28px;display:flex;align-items:center;justify-content:space-between;
+    position:sticky;top:0;z-index:20;
+  }
+  .topbar h1{font-size:19px;margin:0;font-weight:800;}
+  .topbar .crumb{font-size:12.5px;color:var(--text-muted);margin-top:2px;}
+  .topbar-right{display:flex;align-items:center;gap:14px;}
+  .level-badge-top{
+    background:var(--navy);color:#fff;font-size:11.5px;font-weight:700;
+    padding:6px 12px;border-radius:999px;letter-spacing:.3px;
+  }
+  .clock{font-size:12.5px;color:var(--text-muted);font-weight:600;}
+
+  .content{padding:26px 28px 100px;flex:1;}
+  @media(min-width:769px){.content{padding-bottom:32px;}}
+
+  /* ---- Stat cards ---- */
+  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:26px;}
+  .stat-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);
+    padding:18px 20px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  .stat-card .icn{
+    width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    font-size:15px;margin-bottom:14px;
+  }
+  .stat-card .val{font-size:26px;font-weight:800;font-family:'Manrope';line-height:1;}
+  .stat-card .lbl{font-size:12.5px;color:var(--text-muted);margin-top:6px;font-weight:600;}
+  .icn.blue{background:#E7F0FB;color:#1D5FB0;}
+  .icn.green{background:var(--green-light);color:var(--teal);}
+  .icn.amber{background:#FCF1DD;color:var(--amber);}
+  .icn.navy{background:#E6ECF2;color:var(--navy);}
+
+  /* ---- generic panel/card ---- */
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow);padding:22px;margin-bottom:22px;}
+  .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+  .panel-head h3{font-size:16px;margin:0;font-weight:800;}
+  .panel-head .hint{font-size:12.5px;color:var(--text-muted);margin-top:3px;}
+
+  .grid-2{display:grid;grid-template-columns:1.15fr 0.85fr;gap:20px;align-items:start;}
+  @media(max-width:900px){.grid-2{grid-template-columns:1fr;}}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  thead th{
+    text-align:left;font-size:11.5px;color:var(--text-muted);font-weight:700;
+    padding:10px 12px;border-bottom:1.5px solid var(--border);white-space:nowrap;
+  }
+  tbody td{padding:12px;border-bottom:1px solid #EEF3F2;vertical-align:middle;}
+  tbody tr:hover{background:#F9FBFB;}
+  .table-wrap{overflow-x:auto;}
+  .empty-row td{text-align:center;color:var(--text-muted);padding:34px 12px;font-size:13.5px;}
+
+  .badge{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;}
+  .badge.present{background:var(--green-light);color:var(--teal);}
+  .badge.active{background:#E6F6EE;color:var(--green);}
+  .badge.closed{background:#F1E9E9;color:#8A6A6A;}
+  .badge.warn{background:#FCF1DD;color:var(--amber);}
+
+  select, .input-x{
+    padding:10px 12px;border-radius:9px;border:1.5px solid var(--border);font-size:13.5px;background:#fbfdfd;
+  }
+  select:focus,.input-x:focus{outline:none;border-color:var(--green);}
+
+  .code-display{
+    text-align:center;padding:26px 10px;
+  }
+  .code-display .code{
+    font-family:'Manrope';font-weight:800;font-size:44px;letter-spacing:10px;color:var(--navy);
+    margin:6px 0 14px;
+  }
+  .code-display .qr-box{
+    display:inline-flex;padding:14px;background:#fff;border:1px solid var(--border);border-radius:14px;margin-bottom:14px;
+  }
+  .countdown{font-size:13px;color:var(--text-muted);font-weight:600;}
+  .countdown b{color:var(--red);}
+
+  .progress-bar{height:8px;border-radius:999px;background:#E9F1EF;overflow:hidden;margin-top:8px;}
+  .progress-bar > div{height:100%;background:linear-gradient(90deg,var(--green),var(--teal));border-radius:999px;transition:width .4s ease;}
+
+  .empty-state{
+    text-align:center;padding:44px 20px;color:var(--text-muted);
+  }
+  .empty-state i{font-size:30px;color:#C6D8D4;margin-bottom:10px;}
+  .empty-state p{font-size:13.5px;margin:4px 0 0;}
+
+  /* mark-attendance form */
+  .attend-form{display:flex;gap:10px;flex-wrap:wrap;}
+  .attend-form input{flex:1;min-width:160px;text-align:center;letter-spacing:6px;font-weight:700;font-size:18px;text-transform:uppercase;}
+
+  .session-banner{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    background:linear-gradient(135deg,var(--green-light),#EFF9F5);
+    border:1px solid #C9E9DD;border-radius:14px;padding:16px 18px;margin-bottom:20px;
+  }
+  .session-banner .l i{color:var(--teal);margin-right:8px;}
+  .session-banner .l b{font-size:14.5px;}
+  .session-banner .l .s{display:block;font-size:12.5px;color:var(--text-muted);margin-top:2px;}
+
+  /* ---- Bottom mobile nav ---- */
+  .bottom-nav{
+    display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;
+    border-top:1px solid var(--border);z-index:30;padding:6px 4px 8px;
+    box-shadow:0 -6px 18px rgba(11,46,74,0.08);
+  }
+  .bottom-nav .bn-row{display:flex;justify-content:space-around;}
+  .bottom-nav button{
+    background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;
+    color:var(--text-muted);font-size:10.5px;font-weight:700;padding:6px 8px;border-radius:10px;flex:1;
+  }
+  .bottom-nav button i{font-size:16px;}
+  .bottom-nav button.active{color:var(--teal);}
+
+  /* ---- Toasts ---- */
+  #toastHost{position:fixed;top:18px;right:18px;z-index:999;display:flex;flex-direction:column;gap:10px;max-width:320px;}
+  .toast{
+    background:#fff;border-radius:12px;box-shadow:var(--shadow-lift);padding:13px 16px;
+    display:flex;align-items:flex-start;gap:10px;font-size:13.5px;font-weight:600;
+    border-left:4px solid var(--green);animation:toastIn .25s ease;
+  }
+  .toast.error{border-left-color:var(--red);}
+  .toast.warn{border-left-color:var(--amber);}
+  .toast i{margin-top:1px;}
+  .toast.success i{color:var(--green);}
+  .toast.error i{color:var(--red);}
+  .toast.warn i{color:var(--amber);}
+  @keyframes toastIn{from{opacity:0;transform:translateX(16px);}to{opacity:1;transform:translateX(0);}}
+
+  .filters-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .filters-row .input-x{flex:1;min-width:140px;}
+
+  /* ---- Responsive ---- */
+  @media(max-width:768px){
+    #authScreen{flex-direction:column;}
+    .auth-brand{padding:34px 24px;min-height:220px;}
+    .auth-brand .stat-row{display:none;}
+    .auth-panel{padding:28px 18px 40px;}
+    .sidebar{display:none;}
+    .content{padding:18px 16px 92px;}
+    .topbar{padding:14px 16px;}
+    .bottom-nav{display:block;}
+    .grid-2{gap:16px;}
+    .code-display .code{font-size:34px;letter-spacing:7px;}
+    .desktop-only-tab{display:none;}
+  }
+  @media(min-width:769px){
+    .bottom-nav{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div id="toastHost"></div>
+
+<!-- =========================================================
+     AUTH / PORTAL SELECTION SCREEN
+========================================================= -->
+<div id="authScreen">
+  <div class="auth-brand">
+    <div>
+      <div class="brand-mark">
+        <div class="crest">BF</div>
+        <div class="txt">
+          <div class="u1">UNICAL &middot; BANKING &amp; FINANCE</div>
+          <div class="u2">Digital Attendance System</div>
+        </div>
+      </div>
+      <div class="hero">
+        <div class="level-chip"><i class="fa-solid fa-layer-group"></i> 300 LEVEL &middot; 2026/2027 SESSION</div>
+        <h1>Attendance, verified in seconds &mdash; not a signature sheet.</h1>
+        <p>A live replacement for the paper attendance sheet. Lecturers open a timed session, students confirm with a one-time code, and the department gets a real attendance record automatically.</p>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div><div class="num" id="brandStudentCount">--</div><div class="lbl">Registered students</div></div>
+      <div><div class="num" id="brandCourseCount">--</div><div class="lbl">Active courses</div></div>
+      <div><div class="num">5 min</div><div class="lbl">Session window</div></div>
+    </div>
+  </div>
+
+  <div class="auth-panel">
+    <div class="auth-card">
+      <h2 id="authTitle">Sign in to your portal</h2>
+      <p class="sub" id="authSub">Choose your role, then sign in to continue.</p>
+
+      <div id="loginSection">
+        <div class="role-tabs">
+          <button type="button" class="role-tab active" data-role="student" onclick="setAuthRole('student')"><i class="fa-solid fa-user-graduate"></i> Student</button>
+          <button type="button" class="role-tab" data-role="lecturer" onclick="setAuthRole('lecturer')"><i class="fa-solid fa-chalkboard-user"></i> Lecturer</button>
+          <button type="button" class="role-tab desktop-only-tab" data-role="admin" onclick="setAuthRole('admin')"><i class="fa-solid fa-shield-halved"></i> Admin / HOD</button>
+        </div>
+
+        <div class="auth-error" id="authError"><i class="fa-solid fa-circle-exclamation"></i> <span id="authErrorText"></span></div>
+
+        <form id="authForm" onsubmit="return handleLogin(event)">
+          <div class="field" id="fieldPrimary">
+            <label id="labelPrimary">Matric Number</label>
+            <input id="inputPrimary" placeholder="e.g. BAF/23/001" autocomplete="off">
+          </div>
+          <div class="field">
+            <label id="labelSecondary">Password</label>
+            <input id="inputSecondary" type="password" placeholder="Enter password">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block auth-submit"><i class="fa-solid fa-right-to-bracket"></i> <span id="submitLabel">Sign in as Student</span></button>
+        </form>
+
+        <div class="register-link" id="registerLinkBox" style="text-align:center;margin-top:16px;font-size:13px;color:var(--text-muted);">
+          New student? <a href="#" onclick="toggleRegister(true);return false;" style="color:var(--teal);font-weight:700;text-decoration:none;">Create your account</a>
+        </div>
+        <div id="adminHelpBox" style="display:none;text-align:center;margin-top:16px;font-size:13px;color:var(--text-muted);">
+          Locked out? <a href="#" onclick="resetAdminAccess();return false;" style="color:var(--teal);font-weight:700;text-decoration:none;">Reset admin access to default</a>
+        </div>
+      </div>
+
+      <div id="registerSection" style="display:none;">
+        <div class="auth-error" id="registerError"><i class="fa-solid fa-circle-exclamation"></i> <span id="registerErrorText"></span></div>
+        <form id="registerForm" onsubmit="return handleRegister(event)">
+          <div class="field">
+            <label>Full Name</label>
+            <input id="regName" placeholder="e.g. John Effiong Bassey" autocomplete="off">
+          </div>
+          <div class="field">
+            <label>Matric Number</label>
+            <input id="regMatric" placeholder="e.g. BAF/23/013" autocomplete="off">
+          </div>
+          <div class="field">
+            <label>Create Password</label>
+            <input id="regPassword" type="password" placeholder="Choose a password">
+          </div>
+          <div class="field">
+            <label>Confirm Password</label>
+            <input id="regPasswordConfirm" type="password" placeholder="Re-enter password">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block auth-submit"><i class="fa-solid fa-user-plus"></i> Create account &amp; sign in</button>
+        </form>
+        <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--text-muted);">
+          Already registered? <a href="#" onclick="toggleRegister(false);return false;" style="color:var(--teal);font-weight:700;text-decoration:none;">Back to sign in</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================
+     APP SHELL (post-login)
+========================================================= -->
+<div id="appScreen">
+  <div class="app-shell">
+    <div class="sidebar" id="sidebar">
+      <div class="brand-mark">
+        <div class="crest">BF</div>
+        <div class="txt">
+          <div class="u1">UNICAL &middot; B&amp;F</div>
+          <div class="u2">Attendance System</div>
+        </div>
+      </div>
+      <div class="nav-group" id="navGroup"></div>
+      <div class="sidebar-footer">
+        <div class="user-chip">
+          <div class="av" id="sideAvatar">--</div>
+          <div class="meta">
+            <div class="n" id="sideName">--</div>
+            <div class="r" id="sideRole">--</div>
+          </div>
+        </div>
+        <button class="btn btn-danger btn-block btn-sm" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</button>
+      </div>
+    </div>
+
+    <div class="main-col">
+      <div class="topbar">
+        <div>
+          <h1 id="pageTitle">Dashboard</h1>
+          <div class="crumb" id="pageCrumb">Overview</div>
+        </div>
+        <div class="topbar-right">
+          <span class="level-badge-top">300 LEVEL</span>
+          <span class="clock" id="liveClock">--</span>
+        </div>
+      </div>
+      <div class="content" id="content"></div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="bn-row" id="bottomNavRow"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   UNICAL BANKING & FINANCE — DIGITAL ATTENDANCE SYSTEM (prototype)
+   Single-file, localStorage-only, no backend.
+===================================================================== */
+
+/* ---------------------- Storage helpers ---------------------- */
+const LS = {
+  students:'uas_students', courses:'uas_courses', sessions:'uas_sessions',
+  attendance:'uas_attendance', lecturers:'uas_lecturers', admins:'uas_admins',
+  session:'uas_current_session', seeded:'uas_seeded_v1'
+};
+function getData(key){ try{ return JSON.parse(localStorage.getItem(key)) || []; }catch(e){ return []; } }
+function setData(key,val){ localStorage.setItem(key, JSON.stringify(val)); }
+
+/* ---------------------- Seed data ---------------------- */
+function seedIfNeeded(){
+  if(localStorage.getItem(LS.seeded)) return;
+
+  const students = [
+    {matric:'BAF/23/001', name:'Etim Daniel Okon', password:'BAF/23/001'},
+    {matric:'BAF/23/002', name:'Mercy Bassey Edet', password:'BAF/23/002'},
+    {matric:'BAF/23/003', name:'Emmanuel Ita Okon', password:'BAF/23/003'},
+    {matric:'BAF/23/004', name:'Blessing Uwem Eyo', password:'BAF/23/004'},
+    {matric:'BAF/23/005', name:'Grace Ann Effiong', password:'BAF/23/005'},
+    {matric:'BAF/23/006', name:'David Bassey Okoi', password:'BAF/23/006'},
+    {matric:'BAF/23/007', name:'Faith Ekpo Uduak', password:'BAF/23/007'},
+    {matric:'BAF/23/008', name:'Samuel Ekong Nya', password:'BAF/23/008'},
+    {matric:'BAF/23/009', name:'Victory Asuquo Ime', password:'BAF/23/009'},
+    {matric:'BAF/23/010', name:'Comfort Edem Inyang', password:'BAF/23/010'},
+    {matric:'BAF/23/011', name:'Michael Effiong Nse', password:'BAF/23/011'},
+    {matric:'BAF/23/012', name:'Peace Okon Uduak', password:'BAF/23/012'},
+  ];
+
+  const courses = [
+    {code:'FIN301', title:'Financial Management', lecturer:'Dr. K. Etim'},
+    {code:'FIN303', title:'Investment Analysis', lecturer:'Dr. K. Etim'},
+    {code:'FIN305', title:'Banking Operations', lecturer:'Dr. K. Etim'},
+    {code:'ACC301', title:'Financial Accounting', lecturer:'Dr. K. Etim'},
+  ];
+
+  const lecturers = [{username:'lecturer', password:'lecturer123', name:'Dr. K. Etim'}];
+  const admins = [{username:'admin', password:'admin123', name:'Prof. I. Bassey (HOD)'}];
+
+  setData(LS.students, students);
+  setData(LS.courses, courses);
+  setData(LS.lecturers, lecturers);
+  setData(LS.admins, admins);
+  setData(LS.sessions, []);
+  setData(LS.attendance, []);
+  localStorage.setItem(LS.seeded, '1');
+}
+
+/* ---------------------- Global state ---------------------- */
+let currentUser = null; // {role, matric?/username?, name}
+let currentView = 'dashboard';
+let tickTimer = null;
+
+/* ---------------------- Toasts ---------------------- */
+function toast(msg, type){
+  type = type || 'success';
+  const icon = type==='success' ? 'fa-circle-check' : (type==='error' ? 'fa-circle-xmark' : 'fa-triangle-exclamation');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.innerHTML = '<i class="fa-solid '+icon+'"></i><span>'+msg+'</span>';
+  document.getElementById('toastHost').appendChild(el);
+  setTimeout(()=>{ el.style.transition='opacity .3s, transform .3s'; el.style.opacity='0'; el.style.transform='translateX(16px)'; setTimeout(()=>el.remove(),300); }, 3200);
+}
+
+/* ---------------------- Auth role tabs ---------------------- */
+let authRole = 'student';
+function toggleRegister(show){
+  document.getElementById('loginSection').style.display = show ? 'none' : 'block';
+  document.getElementById('registerSection').style.display = show ? 'block' : 'none';
+  document.getElementById('registerError').classList.remove('show');
+  document.getElementById('registerForm').reset();
+  document.getElementById('authTitle').textContent = show ? 'Create your student account' : 'Sign in to your portal';
+  document.getElementById('authSub').textContent = show ? 'Register with your matric number — you\'ll be signed in right away.' : 'Choose your role, then sign in to continue.';
+}
+
+function handleRegister(e){
+  e.preventDefault();
+  const name = document.getElementById('regName').value.trim();
+  const matric = document.getElementById('regMatric').value.trim();
+  const pass = document.getElementById('regPassword').value;
+  const confirm = document.getElementById('regPasswordConfirm').value;
+  const errBox = document.getElementById('registerError');
+  const errText = document.getElementById('registerErrorText');
+  errBox.classList.remove('show');
+
+  if(!name || !matric || !pass || !confirm){ errText.textContent='Please fill in every field.'; errBox.classList.add('show'); return false; }
+  if(pass.length < 4){ errText.textContent='Password should be at least 4 characters.'; errBox.classList.add('show'); return false; }
+  if(pass !== confirm){ errText.textContent='Passwords do not match.'; errBox.classList.add('show'); return false; }
+
+  const students = getData(LS.students);
+  if(students.some(s=>s.matric.toLowerCase()===matric.toLowerCase())){
+    errText.textContent='An account with this matric number already exists. Try signing in instead.';
+    errBox.classList.add('show');
+    return false;
+  }
+
+  students.push({matric, name, password:pass});
+  setData(LS.students, students);
+  toast('Account created — welcome, '+name.split(' ')[0]+'.', 'success');
+  loginAs({role:'student', matric, name});
+  return false;
+}
+
+function setAuthRole(role){
+  authRole = role;
+  toggleRegister(false);
+  document.querySelectorAll('.role-tab').forEach(b=>b.classList.toggle('active', b.dataset.role===role));
+  document.getElementById('authError').classList.remove('show');
+  const labelPrimary = document.getElementById('labelPrimary');
+  const inputPrimary = document.getElementById('inputPrimary');
+  const submitLabel = document.getElementById('submitLabel');
+  const authSub = document.getElementById('authSub');
+  if(role==='student'){
+    labelPrimary.textContent = 'Matric Number';
+    inputPrimary.placeholder = 'e.g. BAF/23/001';
+    submitLabel.textContent = 'Sign in as Student';
+    authSub.textContent = 'Enter your matric number and password to mark attendance.';
+  } else if(role==='lecturer'){
+    labelPrimary.textContent = 'Lecturer Username';
+    inputPrimary.placeholder = 'e.g. lecturer';
+    submitLabel.textContent = 'Sign in as Lecturer';
+    authSub.textContent = 'Start attendance sessions and monitor who has checked in.';
+  } else {
+    labelPrimary.textContent = 'Admin Username';
+    inputPrimary.placeholder = 'e.g. admin';
+    submitLabel.textContent = 'Sign in as Admin / HOD';
+    authSub.textContent = 'Departmental overview, records and reports.';
+  }
+  document.getElementById('registerLinkBox').style.display = role==='student' ? 'block' : 'none';
+  document.getElementById('adminHelpBox').style.display = role==='admin' ? 'block' : 'none';
+  document.getElementById('inputPrimary').value='';
+  document.getElementById('inputSecondary').value='';
+}
+
+function resetAdminAccess(){
+  if(!confirm('This resets the admin login back to username "admin" and password "admin123". Continue?')) return;
+  setData(LS.admins, [{username:'admin', password:'admin123', name:'Prof. I. Bassey (HOD)'}]);
+  document.getElementById('inputPrimary').value = 'admin';
+  document.getElementById('inputSecondary').value = 'admin123';
+  toast('Admin access reset. Username: admin, Password: admin123', 'success');
+}
+
+function handleLogin(e){
+  e.preventDefault();
+  const primary = document.getElementById('inputPrimary').value.trim();
+  const secondary = document.getElementById('inputSecondary').value.trim();
+  const errBox = document.getElementById('authError');
+  const errText = document.getElementById('authErrorText');
+
+  if(!primary || !secondary){
+    errText.textContent = 'Please fill in both fields.';
+    errBox.classList.add('show');
+    return false;
+  }
+
+  if(authRole==='student'){
+    const students = getData(LS.students);
+    const found = students.find(s => s.matric.toLowerCase()===primary.toLowerCase() && s.password===secondary);
+    if(!found){ errText.textContent='Matric number or password is incorrect.'; errBox.classList.add('show'); return false; }
+    loginAs({role:'student', matric:found.matric, name:found.name});
+  } else if(authRole==='lecturer'){
+    const lecturers = getData(LS.lecturers);
+    const found = lecturers.find(l => l.username.toLowerCase()===primary.toLowerCase() && l.password===secondary);
+    if(!found){ errText.textContent='Lecturer username or password is incorrect.'; errBox.classList.add('show'); return false; }
+    loginAs({role:'lecturer', username:found.username, name:found.name});
+  } else {
+    const admins = getData(LS.admins);
+    const found = admins.find(a => a.username.toLowerCase()===primary.toLowerCase() && a.password===secondary);
+    if(!found){ errText.textContent='Admin username or password is incorrect.'; errBox.classList.add('show'); return false; }
+    loginAs({role:'admin', username:found.username, name:found.name});
+  }
+  return false;
+}
+
+function loginAs(user){
+  currentUser = user;
+  localStorage.setItem(LS.session, JSON.stringify(user));
+  currentView = 'dashboard';
+  toast('Welcome, '+user.name.split(' ')[0]+'.', 'success');
+  showApp();
+}
+
+function logout(){
+  currentUser = null;
+  localStorage.removeItem(LS.session);
+  if(tickTimer) clearInterval(tickTimer);
+  document.getElementById('appScreen').style.display='none';
+  document.getElementById('authScreen').style.display='flex';
+  document.getElementById('authForm').reset();
+  setAuthRole('student');
+}
+
+/* ---------------------- Nav config per role ---------------------- */
+const NAV = {
+  student:[
+    {id:'dashboard', label:'Dashboard', icon:'fa-house'},
+    {id:'mark', label:'Mark Attendance', icon:'fa-qrcode'},
+    {id:'history', label:'History', icon:'fa-clock-rotate-left'},
+  ],
+  lecturer:[
+    {id:'dashboard', label:'Dashboard', icon:'fa-house'},
+    {id:'session', label:'Start Session', icon:'fa-play'},
+    {id:'stats', label:'Course Stats', icon:'fa-chart-simple'},
+  ],
+  admin:[
+    {id:'dashboard', label:'Overview', icon:'fa-house'},
+    {id:'records', label:'Attendance Records', icon:'fa-table-list'},
+    {id:'accounts', label:'Accounts', icon:'fa-users'},
+    {id:'courses', label:'Courses', icon:'fa-book'},
+  ]
+};
+
+function showApp(){
+  document.getElementById('authScreen').style.display='none';
+  document.getElementById('appScreen').style.display='block';
+
+  document.getElementById('sideName').textContent = currentUser.name;
+  document.getElementById('sideRole').textContent = currentUser.role==='student' ? 'Student — 300L' : (currentUser.role==='lecturer' ? 'Lecturer' : 'Admin / HOD');
+  document.getElementById('sideAvatar').textContent = currentUser.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+
+  renderNav();
+  navigate('dashboard');
+
+  if(tickTimer) clearInterval(tickTimer);
+  tickTimer = setInterval(()=>{
+    updateClock();
+    autoCloseExpiredSessions();
+    if(['mark','session','dashboard'].includes(currentView)) renderView(true);
+  }, 1000);
+  updateClock();
+}
+
+function renderNav(){
+  const items = NAV[currentUser.role];
+  const navGroup = document.getElementById('navGroup');
+  navGroup.innerHTML = items.map(it =>
+    '<button class="nav-item" data-id="'+it.id+'" onclick="navigate(\''+it.id+'\')"><i class="fa-solid '+it.icon+'"></i> '+it.label+'</button>'
+  ).join('');
+  const bnRow = document.getElementById('bottomNavRow');
+  bnRow.innerHTML = items.map(it =>
+    '<button data-id="'+it.id+'" onclick="navigate(\''+it.id+'\')"><i class="fa-solid '+it.icon+'"></i>'+it.label+'</button>'
+  ).join('') + '<button onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i>Log out</button>';
+}
+
+function navigate(viewId){
+  currentView = viewId;
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active', b.dataset.id===viewId));
+  document.querySelectorAll('.bottom-nav button').forEach(b=>b.classList.toggle('active', b.dataset.id===viewId));
+  renderView(false);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateClock(){
+  const now = new Date();
+  document.getElementById('liveClock').textContent = now.toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short'}) + '  •  ' + now.toLocaleTimeString('en-GB');
+}
+
+/* ---------------------- Utility ---------------------- */
+function fmtDate(d){ return new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); }
+function fmtTime(d){ return new Date(d).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
+function todayStr(){ return new Date().toDateString(); }
+function genCode(){ return String(Math.floor(100000 + Math.random()*900000)); }
+function courseTitle(code){ const c = getData(LS.courses).find(c=>c.code===code); return c ? c.title : code; }
+function esc(s){ return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+function autoCloseExpiredSessions(){
+  const sessions = getData(LS.sessions);
+  let changed = false;
+  const now = Date.now();
+  sessions.forEach(s=>{
+    if(s.status==='active' && now > s.endTime){
+      s.status = 'closed';
+      s.closedBy = 'auto';
+      changed = true;
+    }
+  });
+  if(changed) setData(LS.sessions, sessions);
+}
+
+/* =====================================================================
+   VIEW ROUTER
+===================================================================== */
+function renderView(isTick){
+  const title = document.getElementById('pageTitle');
+  const crumb = document.getElementById('pageCrumb');
+  const content = document.getElementById('content');
+
+  if(currentUser.role==='student'){
+    if(currentView==='dashboard'){ title.textContent='Dashboard'; crumb.textContent='Student portal'; content.innerHTML = viewStudentDashboard(); }
+    else if(currentView==='mark'){ title.textContent='Mark Attendance'; crumb.textContent='Enter session code'; content.innerHTML = viewStudentMark(); }
+    else if(currentView==='history'){ title.textContent='Attendance History'; crumb.textContent='Your records'; content.innerHTML = viewStudentHistory(); }
+  } else if(currentUser.role==='lecturer'){
+    if(currentView==='dashboard'){ title.textContent='Lecturer Dashboard'; crumb.textContent='Courses overview'; content.innerHTML = viewLecturerDashboard(); }
+    else if(currentView==='session'){ title.textContent='Attendance Session'; crumb.textContent='Start & monitor a live session'; content.innerHTML = viewLecturerSession(); }
+    else if(currentView==='stats'){ title.textContent='Course Statistics'; crumb.textContent='Per-course attendance rates'; content.innerHTML = viewLecturerStats(); }
+  } else {
+    if(currentView==='dashboard'){ title.textContent='Departmental Overview'; crumb.textContent='300 Level · Banking & Finance'; content.innerHTML = viewAdminDashboard(); }
+    else if(currentView==='records'){ title.textContent='Attendance Records'; crumb.textContent='Search & filter all sessions'; content.innerHTML = viewAdminRecords(); }
+    else if(currentView==='accounts'){ title.textContent='Accounts'; crumb.textContent='Manage student & lecturer logins'; content.innerHTML = viewAdminAccounts(); }
+    else if(currentView==='courses'){ title.textContent='Courses'; crumb.textContent='Manage the course catalog'; content.innerHTML = viewAdminCourses(); }
+  }
+
+  if(!isTick) afterRender();
+  else afterRenderTickOnly();
+}
+
+/* Things that need re-binding only on full nav (QR canvas etc.) */
+function afterRender(){
+  if(currentUser.role==='lecturer' && currentView==='session') renderQRIfActive();
+  if(currentUser.role==='admin' && currentView==='records') bindRecordFilters();
+  if(currentUser.role==='admin' && currentView==='accounts') renderAccountsTables();
+}
+function afterRenderTickOnly(){
+  if(currentUser.role==='lecturer' && currentView==='session') renderQRIfActive();
+}
+
+/* =====================================================================
+   STUDENT VIEWS
+===================================================================== */
+function viewStudentDashboard(){
+  const me = currentUser.matric;
+  const courses = getData(LS.courses);
+  const sessions = getData(LS.sessions);
+  const attendance = getData(LS.attendance).filter(a=>a.matric===me);
+  const activeSessions = sessions.filter(s=>s.status==='active');
+
+  const totalForMe = sessions.length;
+  const pct = totalForMe ? Math.round((attendance.length/totalForMe)*100) : 0;
+
+  let html = '';
+  html += '<div class="stats-grid">';
+  html += statCard('fa-qrcode','green', activeSessions.length, 'Active sessions right now');
+  html += statCard('fa-circle-check','blue', attendance.length, 'Classes attended');
+  html += statCard('fa-percent','amber', pct+'%', 'Overall attendance rate');
+  html += statCard('fa-book','navy', courses.length, 'Registered courses (300L)');
+  html += '</div>';
+
+  if(activeSessions.length){
+    activeSessions.forEach(s=>{
+      const remain = Math.max(0, s.endTime - Date.now());
+      html += '<div class="session-banner"><div class="l"><i class="fa-solid fa-circle-dot" style="color:var(--green);"></i><b>'+esc(courseTitle(s.courseCode))+' ('+s.courseCode+') session is live</b><span class="s">Closes in '+fmtCountdown(remain)+' — go to "Mark Attendance" to check in.</span></div><button class="btn btn-primary btn-sm" onclick="navigate(\'mark\')"><i class="fa-solid fa-arrow-right"></i> Mark now</button></div>';
+    });
+  }
+
+  html += '<div class="panel">';
+  html += '<div class="panel-head"><div><h3>Recent attendance</h3><div class="hint">Your last 5 check-ins</div></div><button class="btn btn-outline btn-sm" onclick="navigate(\'history\')">View all</button></div>';
+  html += renderAttendanceTable(attendance.slice(-5).reverse(), true);
+  html += '</div>';
+
+  return html;
+}
+
+function statCard(icon,color,val,lbl){
+  return '<div class="stat-card"><div class="icn '+color+'"><i class="fa-solid '+icon+'"></i></div><div class="val">'+val+'</div><div class="lbl">'+lbl+'</div></div>';
+}
+
+function fmtCountdown(ms){
+  if(ms<=0) return '0:00';
+  const total = Math.ceil(ms/1000);
+  const m = Math.floor(total/60), s = total%60;
+  return m+':'+String(s).padStart(2,'0');
+}
+
+function renderAttendanceTable(rows, isStudentView){
+  if(!rows.length){
+    return '<div class="empty-state"><i class="fa-solid fa-inbox"></i><p>No attendance records yet.</p></div>';
+  }
+  let head = isStudentView
+    ? '<tr><th>Course</th><th>Date</th><th>Time</th><th>Status</th></tr>'
+    : '<tr><th>Student</th><th>Matric</th><th>Course</th><th>Date</th><th>Time</th><th>Status</th></tr>';
+  let body = rows.map(r=>{
+    const badge = '<span class="badge present"><i class="fa-solid fa-check"></i> Present</span>';
+    if(isStudentView){
+      return '<tr><td><b>'+esc(r.courseCode)+'</b> · '+esc(courseTitle(r.courseCode))+'</td><td>'+esc(r.date)+'</td><td>'+esc(r.time)+'</td><td>'+badge+'</td></tr>';
+    }
+    return '<tr><td>'+esc(r.name)+'</td><td>'+esc(r.matric)+'</td><td>'+esc(r.courseCode)+'</td><td>'+esc(r.date)+'</td><td>'+esc(r.time)+'</td><td>'+badge+'</td></tr>';
+  }).join('');
+  return '<div class="table-wrap"><table><thead>'+head+'</thead><tbody>'+body+'</tbody></table></div>';
+}
+
+function viewStudentMark(){
+  const sessions = getData(LS.sessions).filter(s=>s.status==='active');
+  const me = currentUser.matric;
+  const attendance = getData(LS.attendance);
+
+  let html = '<div class="panel">';
+  html += '<div class="panel-head"><div><h3>Enter attendance code</h3><div class="hint">Get the 6-digit code or QR from your lecturer, then submit before the session closes.</div></div></div>';
+  html += '<form class="attend-form" onsubmit="return submitAttendanceCode(event)">';
+  html += '<input id="codeInput" maxlength="6" inputmode="numeric" placeholder="000000" autocomplete="off">';
+  html += '<button class="btn btn-primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Submit</button>';
+  html += '</form>';
+  html += '</div>';
+
+  html += '<div class="panel">';
+  html += '<div class="panel-head"><h3>Sessions live right now</h3></div>';
+  if(!sessions.length){
+    html += '<div class="empty-state"><i class="fa-solid fa-hourglass-half"></i><p>No lecturer has started an attendance session yet.</p></div>';
+  } else {
+    html += '<div class="table-wrap"><table><thead><tr><th>Course</th><th>Started</th><th>Closes in</th><th>Your status</th></tr></thead><tbody>';
+    sessions.forEach(s=>{
+      const attended = attendance.some(a=>a.sessionId===s.id && a.matric===me);
+      const remain = Math.max(0, s.endTime-Date.now());
+      html += '<tr><td><b>'+s.courseCode+'</b> · '+esc(courseTitle(s.courseCode))+'</td><td>'+fmtTime(s.startTime)+'</td><td>'+fmtCountdown(remain)+'</td><td>'+(attended ? '<span class="badge present"><i class="fa-solid fa-check"></i> Marked</span>' : '<span class="badge warn"><i class="fa-solid fa-clock"></i> Not yet</span>')+'</td></tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function submitAttendanceCode(e){
+  e.preventDefault();
+  const codeEl = document.getElementById('codeInput');
+  const code = codeEl.value.trim();
+  if(!code){ toast('Enter the code your lecturer shared.', 'error'); return false; }
+
+  autoCloseExpiredSessions();
+  const sessions = getData(LS.sessions);
+  const session = sessions.find(s=>s.code===code && s.status==='active');
+
+  if(!session){
+    toast('That code is invalid or the session has closed.', 'error');
+    codeEl.value='';
+    return false;
+  }
+
+  const attendance = getData(LS.attendance);
+  const already = attendance.some(a=>a.sessionId===session.id && a.matric===currentUser.matric);
+  if(already){
+    toast('You have already marked attendance for this session.', 'warn');
+    return false;
+  }
+
+  const now = new Date();
+  attendance.push({
+    sessionId: session.id,
+    matric: currentUser.matric,
+    name: currentUser.name,
+    courseCode: session.courseCode,
+    date: now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}),
+    time: now.toLocaleTimeString('en-GB'),
+    status:'present',
+    ts: now.getTime()
+  });
+  setData(LS.attendance, attendance);
+  toast('Attendance marked for '+session.courseCode+'. Well done!', 'success');
+  renderView(false);
+}
+
+function viewStudentHistory(){
+  const me = currentUser.matric;
+  const attendance = getData(LS.attendance).filter(a=>a.matric===me).sort((a,b)=>b.ts-a.ts);
+  const sessions = getData(LS.sessions);
+  const totalSessions = sessions.length;
+  const pct = totalSessions ? Math.round((attendance.length/totalSessions)*100) : 0;
+
+  let html = '<div class="panel">';
+  html += '<div class="panel-head"><div><h3>Overall attendance</h3><div class="hint">'+attendance.length+' of '+totalSessions+' department sessions attended</div></div><div style="font-size:24px;font-weight:800;font-family:Manrope;color:var(--teal);">'+pct+'%</div></div>';
+  html += '<div class="progress-bar"><div style="width:'+pct+'%;"></div></div>';
+  html += '</div>';
+
+  html += '<div class="panel">';
+  html += '<div class="panel-head"><h3>Full history</h3></div>';
+  html += renderAttendanceTable(attendance, true);
+  html += '</div>';
+  return html;
+}
+
+/* =====================================================================
+   LECTURER VIEWS
+===================================================================== */
+function viewLecturerDashboard(){
+  const courses = getData(LS.courses);
+  const sessions = getData(LS.sessions);
+  const attendance = getData(LS.attendance);
+  const students = getData(LS.students);
+  const activeCount = sessions.filter(s=>s.status==='active').length;
+  const totalPresent = attendance.length;
+  const avgRate = sessions.length ? Math.round((totalPresent/(sessions.length*students.length))*100) : 0;
+
+  let html = '<div class="stats-grid">';
+  html += statCard('fa-book-open','navy', courses.length, 'Courses you teach');
+  html += statCard('fa-circle-dot','green', activeCount, 'Sessions live now');
+  html += statCard('fa-calendar-check','blue', sessions.length, 'Sessions held (all time)');
+  html += statCard('fa-percent','amber', avgRate+'%', 'Average attendance rate');
+  html += '</div>';
+
+  html += '<div class="grid-2">';
+  html += '<div class="panel"><div class="panel-head"><div><h3>Your courses</h3><div class="hint">300 Level · Banking & Finance</div></div><button class="btn btn-primary btn-sm" onclick="navigate(\'session\')"><i class="fa-solid fa-play"></i> Start a session</button></div>';
+  html += '<div class="table-wrap"><table><thead><tr><th>Code</th><th>Course</th><th>Sessions held</th><th>Avg. attendance</th></tr></thead><tbody>';
+  courses.forEach(c=>{
+    const cSessions = sessions.filter(s=>s.courseCode===c.code);
+    const cAtt = attendance.filter(a=>a.courseCode===c.code);
+    const rate = cSessions.length ? Math.round((cAtt.length/(cSessions.length*students.length))*100) : 0;
+    html += '<tr><td><b>'+c.code+'</b></td><td>'+esc(c.title)+'</td><td>'+cSessions.length+'</td><td>'+rate+'%</td></tr>';
+  });
+  html += '</tbody></table></div></div>';
+
+  const active = sessions.filter(s=>s.status==='active');
+  html += '<div class="panel"><div class="panel-head"><h3>Live now</h3></div>';
+  if(!active.length){
+    html += '<div class="empty-state"><i class="fa-solid fa-power-off"></i><p>No session is currently active.</p></div>';
+  } else {
+    active.forEach(s=>{
+      const present = attendance.filter(a=>a.sessionId===s.id).length;
+      const remain = Math.max(0,s.endTime-Date.now());
+      html += '<div class="session-banner" style="margin-bottom:10px;"><div class="l"><i class="fa-solid fa-circle-dot" style="color:var(--green);"></i><b>'+s.courseCode+'</b><span class="s">Code '+s.code+' · '+present+'/'+students.length+' present · closes in '+fmtCountdown(remain)+'</span></div></div>';
+    });
+  }
+  html += '</div></div>';
+  return html;
+}
+
+let selectedCourseForSession = null;
+
+function viewLecturerSession(){
+  const courses = getData(LS.courses);
+  const sessions = getData(LS.sessions);
+  const students = getData(LS.students);
+  const activeSession = sessions.find(s=>s.status==='active');
+
+  let html = '<div class="grid-2">';
+  html += '<div class="panel">';
+
+  if(activeSession){
+    const present = getData(LS.attendance).filter(a=>a.sessionId===activeSession.id);
+    const remain = Math.max(0, activeSession.endTime-Date.now());
+    html += '<div class="panel-head"><div><h3>'+activeSession.courseCode+' · '+esc(courseTitle(activeSession.courseCode))+'</h3><div class="hint">Session started at '+fmtTime(activeSession.startTime)+'</div></div><span class="badge active"><i class="fa-solid fa-circle-dot"></i> Live</span></div>';
+    html += '<div class="code-display">';
+    html += '<div class="hint" style="font-weight:700;color:var(--text-muted);font-size:12.5px;letter-spacing:.5px;">SHARE THIS CODE</div>';
+    html += '<div class="code">'+activeSession.code+'</div>';
+    html += '<div class="qr-box"><div id="qrcanvas"></div></div>';
+    html += '<div class="countdown">Auto-closes in <b id="sessionCountdown">'+fmtCountdown(remain)+'</b></div>';
+    html += '</div>';
+    html += '<button class="btn btn-danger btn-block" onclick="closeSession(\''+activeSession.id+'\')"><i class="fa-solid fa-stop"></i> Close attendance now</button>';
+  } else {
+    html += '<div class="panel-head"><div><h3>Start a new session</h3><div class="hint">Choose a course — a 6-digit code and QR will be generated instantly.</div></div></div>';
+    html += '<div class="field"><label>Course</label><select id="courseSelect">';
+    courses.forEach(c=> html += '<option value="'+c.code+'">'+c.code+' — '+esc(c.title)+'</option>');
+    html += '</select></div>';
+    html += '<button class="btn btn-primary btn-block" onclick="startSession()"><i class="fa-solid fa-play"></i> Start Attendance</button>';
+  }
+  html += '</div>';
+
+  html += '<div class="panel">';
+  html += '<div class="panel-head"><div><h3>Live check-ins</h3><div class="hint">'+(activeSession ? 'Updates automatically' : 'Start a session to see this')+'</div></div>';
+  if(activeSession){
+    const present = getData(LS.attendance).filter(a=>a.sessionId===activeSession.id);
+    html += '<span class="badge present">'+present.length+' / '+students.length+' present</span>';
+  }
+  html += '</div>';
+  if(activeSession){
+    const present = getData(LS.attendance).filter(a=>a.sessionId===activeSession.id).sort((a,b)=>b.ts-a.ts);
+    html += renderAttendanceTable(present, false);
+  } else {
+    html += '<div class="empty-state"><i class="fa-solid fa-user-clock"></i><p>No active session.</p></div>';
+  }
+  html += '</div>';
+  html += '</div>';
+  return html;
+}
+
+function startSession(){
+  const courseCode = document.getElementById('courseSelect').value;
+  const sessions = getData(LS.sessions);
+  if(sessions.some(s=>s.status==='active')){
+    toast('Close the current active session before starting another.', 'warn');
+    return;
+  }
+  const now = Date.now();
+  const session = {
+    id: 's_'+now,
+    courseCode,
+    code: genCode(),
+    startTime: now,
+    endTime: now + 5*60*1000,
+    status:'active',
+    closedBy:null
+  };
+  sessions.push(session);
+  setData(LS.sessions, sessions);
+  toast('Session started for '+courseCode+'. Code: '+session.code, 'success');
+  renderView(false);
+}
+
+function closeSession(id){
+  const sessions = getData(LS.sessions);
+  const s = sessions.find(x=>x.id===id);
+  if(s){ s.status='closed'; s.closedBy='manual'; setData(LS.sessions, sessions); }
+  toast('Attendance session closed.', 'success');
+  renderView(false);
+}
+
+function renderQRIfActive(){
+  const qrHost = document.getElementById('qrcanvas');
+  if(!qrHost) return;
+  const sessions = getData(LS.sessions);
+  const activeSession = sessions.find(s=>s.status==='active');
+  if(!activeSession) return;
+  qrHost.innerHTML='';
+  try{
+    new QRCode(qrHost, {
+      text: 'UNICAL-BF-ATTENDANCE|'+activeSession.courseCode+'|'+activeSession.code,
+      width:150, height:150,
+      colorDark:'#0B2E4A', colorLight:'#ffffff'
+    });
+  }catch(e){ qrHost.textContent = 'QR unavailable'; }
+  const cd = document.getElementById('sessionCountdown');
+  if(cd){ const remain = Math.max(0, activeSession.endTime-Date.now()); cd.textContent = fmtCountdown(remain); }
+}
+
+function viewLecturerStats(){
+  const courses = getData(LS.courses);
+  const sessions = getData(LS.sessions);
+  const attendance = getData(LS.attendance);
+  const students = getData(LS.students);
+
+  let html = '<div class="panel"><div class="panel-head"><h3>Per-course statistics</h3></div>';
+  html += '<div class="table-wrap"><table><thead><tr><th>Code</th><th>Course</th><th>Sessions</th><th>Total check-ins</th><th>Avg. attendance rate</th></tr></thead><tbody>';
+  courses.forEach(c=>{
+    const cSessions = sessions.filter(s=>s.courseCode===c.code);
+    const cAtt = attendance.filter(a=>a.courseCode===c.code);
+    const rate = cSessions.length ? Math.round((cAtt.length/(cSessions.length*students.length))*100) : 0;
+    html += '<tr><td><b>'+c.code+'</b></td><td>'+esc(c.title)+'</td><td>'+cSessions.length+'</td><td>'+cAtt.length+'</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="progress-bar" style="flex:1;margin:0;"><div style="width:'+rate+'%;"></div></div><span style="font-weight:700;font-size:12.5px;">'+rate+'%</span></div></td></tr>';
+  });
+  html += '</tbody></table></div></div>';
+
+  html += '<div class="panel"><div class="panel-head"><h3>Session history</h3></div>';
+  const allSessions = [...sessions].sort((a,b)=>b.startTime-a.startTime);
+  if(!allSessions.length){
+    html += '<div class="empty-state"><i class="fa-solid fa-calendar-xmark"></i><p>No sessions recorded yet.</p></div>';
+  } else {
+    html += '<div class="table-wrap"><table><thead><tr><th>Course</th><th>Date</th><th>Started</th><th>Status</th><th>Present</th></tr></thead><tbody>';
+    allSessions.forEach(s=>{
+      const present = attendance.filter(a=>a.sessionId===s.id).length;
+      const badge = s.status==='active' ? '<span class="badge active"><i class="fa-solid fa-circle-dot"></i> Live</span>' : '<span class="badge closed"><i class="fa-solid fa-lock"></i> Closed</span>';
+      html += '<tr><td><b>'+s.courseCode+'</b></td><td>'+fmtDate(s.startTime)+'</td><td>'+fmtTime(s.startTime)+'</td><td>'+badge+'</td><td>'+present+' / '+students.length+'</td></tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+/* =====================================================================
+   ADMIN VIEWS
+===================================================================== */
+function viewAdminDashboard(){
+  const students = getData(LS.students);
+  const courses = getData(LS.courses);
+  const sessions = getData(LS.sessions);
+  const attendance = getData(LS.attendance);
+  const overallPct = (sessions.length && students.length) ? Math.round((attendance.length/(sessions.length*students.length))*100) : 0;
+
+  let html = '<div class="stats-grid">';
+  html += statCard('fa-users','navy', students.length, 'Total students (300L)');
+  html += statCard('fa-book','blue', courses.length, 'Total courses');
+  html += statCard('fa-calendar-check','green', sessions.length, 'Attendance sessions held');
+  html += statCard('fa-percent','amber', overallPct+'%', 'Overall attendance rate');
+  html += '</div>';
+
+  html += '<div class="grid-2">';
+  html += '<div class="panel"><div class="panel-head"><div><h3>Attendance by course</h3></div></div>';
+  html += '<div class="table-wrap"><table><thead><tr><th>Course</th><th>Sessions</th><th>Attendance rate</th></tr></thead><tbody>';
+  courses.forEach(c=>{
+    const cSessions = sessions.filter(s=>s.courseCode===c.code);
+    const cAtt = attendance.filter(a=>a.courseCode===c.code);
+    const rate = cSessions.length ? Math.round((cAtt.length/(cSessions.length*students.length))*100) : 0;
+    html += '<tr><td><b>'+c.code+'</b> · '+esc(c.title)+'</td><td>'+cSessions.length+'</td><td>'+rate+'%</td></tr>';
+  });
+  html += '</tbody></table></div></div>';
+
+  html += '<div class="panel"><div class="panel-head"><h3>Recent activity</h3></div>';
+  const recent = [...attendance].sort((a,b)=>b.ts-a.ts).slice(0,6);
+  html += renderAttendanceTable(recent, false);
+  html += '</div>';
+  html += '</div>';
+  return html;
+}
+
+function viewAdminRecords(){
+  const courses = getData(LS.courses);
+  let html = '<div class="panel">';
+  html += '<div class="panel-head"><div><h3>All attendance records</h3><div class="hint">Search, filter by course or date, then export.</div></div><button class="btn btn-primary btn-sm" onclick="exportCSV()"><i class="fa-solid fa-file-csv"></i> Export CSV</button></div>';
+  html += '<div class="filters-row">';
+  html += '<input class="input-x" id="searchInput" placeholder="Search by name or matric no...">';
+  html += '<select class="input-x" id="courseFilter"><option value="">All courses</option>' + courses.map(c=>'<option value="'+c.code+'">'+c.code+'</option>').join('') + '</select>';
+  html += '<input class="input-x" type="date" id="dateFilter">';
+  html += '<button class="btn btn-outline btn-sm" onclick="clearRecordFilters()"><i class="fa-solid fa-rotate-left"></i> Reset</button>';
+  html += '</div>';
+  html += '<div id="recordsTableHost"></div>';
+  html += '</div>';
+  return html;
+}
+
+function bindRecordFilters(){
+  const s = document.getElementById('searchInput');
+  const c = document.getElementById('courseFilter');
+  const d = document.getElementById('dateFilter');
+  if(!s) return;
+  [s,c,d].forEach(el=> el.addEventListener('input', renderRecordsTable));
+  renderRecordsTable();
+}
+
+function renderRecordsTable(){
+  const searchVal = (document.getElementById('searchInput')?.value || '').toLowerCase();
+  const courseVal = document.getElementById('courseFilter')?.value || '';
+  const dateVal = document.getElementById('dateFilter')?.value || '';
+
+  let rows = [...getData(LS.attendance)].sort((a,b)=>b.ts-a.ts);
+  if(searchVal) rows = rows.filter(r=> r.name.toLowerCase().includes(searchVal) || r.matric.toLowerCase().includes(searchVal));
+  if(courseVal) rows = rows.filter(r=> r.courseCode===courseVal);
+  if(dateVal){
+    const target = new Date(dateVal).toDateString();
+    rows = rows.filter(r=> new Date(r.ts).toDateString()===target);
+  }
+  document.getElementById('recordsTableHost').innerHTML = renderAttendanceTable(rows, false) + '<div class="hint" style="margin-top:10px;">'+rows.length+' record(s) shown</div>';
+  window._filteredRecords = rows;
+}
+
+function clearRecordFilters(){
+  document.getElementById('searchInput').value='';
+  document.getElementById('courseFilter').value='';
+  document.getElementById('dateFilter').value='';
+  renderRecordsTable();
+}
+
+function exportCSV(){
+  const rows = window._filteredRecords && window._filteredRecords.length ? window._filteredRecords : getData(LS.attendance);
+  if(!rows.length){ toast('No records to export.', 'warn'); return; }
+  let csv = 'Name,Matric Number,Course,Date,Time,Status\n';
+  rows.forEach(r=>{
+    csv += [r.name, r.matric, r.courseCode, r.date, r.time, 'Present'].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',') + '\n';
+  });
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'attendance_export_'+Date.now()+'.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  toast('CSV exported ('+rows.length+' records).', 'success');
+}
+
+/* ---------------------- Admin: Accounts (Students + Lecturers) ---------------------- */
+let accountsTab = 'students';
+function setAccountsTab(tab){ accountsTab = tab; renderAccountsTables(); }
+
+function viewAdminAccounts(){
+  let html = '<div class="panel">';
+  html += '<div class="panel-head"><div><h3>Accounts</h3><div class="hint">This is how people get logins — add a student or lecturer account here, or let students self-register from the sign-in screen.</div></div></div>';
+  html += '<div class="role-tabs" style="max-width:320px;">';
+  html += '<button type="button" class="role-tab '+(accountsTab==='students'?'active':'')+'" onclick="setAccountsTab(\'students\')"><i class="fa-solid fa-user-graduate"></i> Students</button>';
+  html += '<button type="button" class="role-tab '+(accountsTab==='lecturers'?'active':'')+'" onclick="setAccountsTab(\'lecturers\')"><i class="fa-solid fa-chalkboard-user"></i> Lecturers</button>';
+  html += '</div>';
+  html += '<div id="accountsHost" style="margin-top:20px;"></div>';
+  html += '</div>';
+  return html;
+}
+
+function renderAccountsTables(){
+  const host = document.getElementById('accountsHost');
+  if(!host) return;
+  host.innerHTML = accountsTab==='students' ? accountsStudentsHTML() : accountsLecturersHTML();
+}
+
+function accountsStudentsHTML(){
+  const students = getData(LS.students);
+  const sessions = getData(LS.sessions);
+  const attendance = getData(LS.attendance);
+  let html = '<form onsubmit="return addStudentAccount(event)" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:18px;padding:16px;background:#F9FBFB;border:1px dashed var(--border);border-radius:12px;">';
+  html += '<div class="field" style="flex:1;min-width:180px;margin:0;"><label>Full Name</label><input class="input-x" id="newStudentName" style="width:100%;" placeholder="e.g. Joseph Etim Ekpo"></div>';
+  html += '<div class="field" style="flex:1;min-width:150px;margin:0;"><label>Matric Number</label><input class="input-x" id="newStudentMatric" style="width:100%;" placeholder="e.g. BAF/23/013"></div>';
+  html += '<button class="btn btn-primary" type="submit"><i class="fa-solid fa-user-plus"></i> Add student</button>';
+  html += '</form>';
+  html += '<div class="hint" style="margin:-8px 0 14px;">New students get a default password equal to their matric number (they can change it by re-registering isn\'t needed — just share the matric number as the password).</div>';
+
+  html += '<div class="filters-row"><input class="input-x" id="studentSearch" placeholder="Search by name or matric no..." oninput="renderAccountsTables()"></div>';
+  const searchVal = (document.getElementById('studentSearch')?.value || '').toLowerCase();
+  let rows = students;
+  if(searchVal) rows = rows.filter(s=> s.name.toLowerCase().includes(searchVal) || s.matric.toLowerCase().includes(searchVal));
+
+  html += '<div class="table-wrap"><table><thead><tr><th>Name</th><th>Matric No.</th><th>Login password</th><th>Attendance</th><th>Actions</th></tr></thead><tbody>';
+  if(!rows.length){
+    html += '<tr class="empty-row"><td colspan="5">No matching students.</td></tr>';
+  } else {
+    rows.forEach(s=>{
+      const att = attendance.filter(a=>a.matric===s.matric).length;
+      const pct = sessions.length ? Math.round((att/sessions.length)*100) : 0;
+      html += '<tr><td>'+esc(s.name)+'</td><td>'+esc(s.matric)+'</td><td><code>'+esc(s.password)+'</code></td><td>'+att+'/'+sessions.length+' ('+pct+'%)</td>';
+      html += '<td style="white-space:nowrap;"><button class="btn btn-outline btn-sm" onclick="resetStudentPassword(\''+esc(s.matric)+'\')" title="Reset password to matric number"><i class="fa-solid fa-rotate-left"></i></button> <button class="btn btn-danger btn-sm" onclick="deleteStudentAccount(\''+esc(s.matric)+'\')" title="Remove account"><i class="fa-solid fa-trash"></i></button></td></tr>';
+    });
+  }
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function addStudentAccount(e){
+  e.preventDefault();
+  const name = document.getElementById('newStudentName').value.trim();
+  const matric = document.getElementById('newStudentMatric').value.trim();
+  if(!name || !matric){ toast('Enter both a name and a matric number.', 'error'); return false; }
+  const students = getData(LS.students);
+  if(students.some(s=>s.matric.toLowerCase()===matric.toLowerCase())){
+    toast('A student with that matric number already exists.', 'error');
+    return false;
+  }
+  students.push({matric, name, password:matric});
+  setData(LS.students, students);
+  toast('Student account created for '+name+'. Password = matric number.', 'success');
+  renderAccountsTables();
+  return false;
+}
+
+function resetStudentPassword(matric){
+  const students = getData(LS.students);
+  const s = students.find(x=>x.matric===matric);
+  if(!s) return;
+  s.password = s.matric;
+  setData(LS.students, students);
+  toast('Password reset to the matric number for '+s.name+'.', 'success');
+  renderAccountsTables();
+}
+
+function deleteStudentAccount(matric){
+  if(!confirm('Remove this student account? Their past attendance records are kept for reporting.')) return;
+  let students = getData(LS.students);
+  students = students.filter(s=>s.matric!==matric);
+  setData(LS.students, students);
+  toast('Student account removed.', 'success');
+  renderAccountsTables();
+}
+
+function accountsLecturersHTML(){
+  const lecturers = getData(LS.lecturers);
+  let html = '<form onsubmit="return addLecturerAccount(event)" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:18px;padding:16px;background:#F9FBFB;border:1px dashed var(--border);border-radius:12px;">';
+  html += '<div class="field" style="flex:1;min-width:180px;margin:0;"><label>Full Name</label><input class="input-x" id="newLecturerName" style="width:100%;" placeholder="e.g. Dr. A. Okoi"></div>';
+  html += '<div class="field" style="flex:1;min-width:140px;margin:0;"><label>Username</label><input class="input-x" id="newLecturerUsername" style="width:100%;" placeholder="e.g. a.okoi"></div>';
+  html += '<div class="field" style="flex:1;min-width:140px;margin:0;"><label>Password</label><input class="input-x" id="newLecturerPassword" style="width:100%;" placeholder="Set a password"></div>';
+  html += '<button class="btn btn-primary" type="submit"><i class="fa-solid fa-user-plus"></i> Add lecturer</button>';
+  html += '</form>';
+
+  html += '<div class="table-wrap"><table><thead><tr><th>Name</th><th>Username</th><th>Password</th><th>Actions</th></tr></thead><tbody>';
+  if(!lecturers.length){
+    html += '<tr class="empty-row"><td colspan="4">No lecturer accounts yet.</td></tr>';
+  } else {
+    lecturers.forEach(l=>{
+      html += '<tr><td>'+esc(l.name)+'</td><td>'+esc(l.username)+'</td><td><code>'+esc(l.password)+'</code></td><td><button class="btn btn-danger btn-sm" onclick="deleteLecturerAccount(\''+esc(l.username)+'\')" title="Remove account"><i class="fa-solid fa-trash"></i></button></td></tr>';
+    });
+  }
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function addLecturerAccount(e){
+  e.preventDefault();
+  const name = document.getElementById('newLecturerName').value.trim();
+  const username = document.getElementById('newLecturerUsername').value.trim();
+  const password = document.getElementById('newLecturerPassword').value.trim();
+  if(!name || !username || !password){ toast('Fill in name, username and password.', 'error'); return false; }
+  const lecturers = getData(LS.lecturers);
+  if(lecturers.some(l=>l.username.toLowerCase()===username.toLowerCase())){
+    toast('That username is already taken.', 'error');
+    return false;
+  }
+  lecturers.push({username, password, name});
+  setData(LS.lecturers, lecturers);
+  toast('Lecturer account created for '+name+'.', 'success');
+  renderAccountsTables();
+  return false;
+}
+
+function deleteLecturerAccount(username){
+  const lecturers = getData(LS.lecturers);
+  if(lecturers.length<=1){ toast('At least one lecturer account must remain.', 'warn'); return; }
+  if(!confirm('Remove this lecturer account?')) return;
+  setData(LS.lecturers, lecturers.filter(l=>l.username!==username));
+  toast('Lecturer account removed.', 'success');
+  renderAccountsTables();
+}
+
+/* ---------------------- Admin: Courses ---------------------- */
+function viewAdminCourses(){
+  const courses = getData(LS.courses);
+  const sessions = getData(LS.sessions);
+  let html = '<div class="panel">';
+  html += '<div class="panel-head"><div><h3>Course catalog</h3><div class="hint">Add a course here and it immediately appears in the lecturer\'s "Start Session" dropdown.</div></div></div>';
+  html += '<form onsubmit="return addCourse(event)" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:20px;padding:16px;background:#F9FBFB;border:1px dashed var(--border);border-radius:12px;">';
+  html += '<div class="field" style="flex:1;min-width:120px;margin:0;"><label>Course Code</label><input class="input-x" id="newCourseCode" style="width:100%;" placeholder="e.g. FIN307"></div>';
+  html += '<div class="field" style="flex:2;min-width:200px;margin:0;"><label>Course Title</label><input class="input-x" id="newCourseTitle" style="width:100%;" placeholder="e.g. Public Sector Finance"></div>';
+  html += '<div class="field" style="flex:1;min-width:160px;margin:0;"><label>Lecturer (optional)</label><input class="input-x" id="newCourseLecturer" style="width:100%;" placeholder="e.g. Dr. K. Etim"></div>';
+  html += '<button class="btn btn-primary" type="submit"><i class="fa-solid fa-plus"></i> Add course</button>';
+  html += '</form>';
+
+  html += '<div class="table-wrap"><table><thead><tr><th>Code</th><th>Title</th><th>Lecturer</th><th>Sessions held</th><th>Actions</th></tr></thead><tbody>';
+  if(!courses.length){
+    html += '<tr class="empty-row"><td colspan="5">No courses yet — add one above.</td></tr>';
+  } else {
+    courses.forEach(c=>{
+      const held = sessions.filter(s=>s.courseCode===c.code).length;
+      html += '<tr><td><b>'+esc(c.code)+'</b></td><td>'+esc(c.title)+'</td><td>'+esc(c.lecturer||'—')+'</td><td>'+held+'</td><td><button class="btn btn-danger btn-sm" onclick="deleteCourse(\''+esc(c.code)+'\')" title="Remove course"><i class="fa-solid fa-trash"></i></button></td></tr>';
+    });
+  }
+  html += '</tbody></table></div>';
+  html += '</div>';
+  return html;
+}
+
+function addCourse(e){
+  e.preventDefault();
+  const code = document.getElementById('newCourseCode').value.trim().toUpperCase();
+  const title = document.getElementById('newCourseTitle').value.trim();
+  const lecturer = document.getElementById('newCourseLecturer').value.trim();
+  if(!code || !title){ toast('Enter both a course code and a title.', 'error'); return false; }
+  const courses = getData(LS.courses);
+  if(courses.some(c=>c.code.toUpperCase()===code)){
+    toast('A course with that code already exists.', 'error');
+    return false;
+  }
+  courses.push({code, title, lecturer});
+  setData(LS.courses, courses);
+  toast('Course '+code+' added.', 'success');
+  document.getElementById('brandCourseCount') && (document.getElementById('brandCourseCount').textContent = courses.length);
+  renderView(false);
+  return false;
+}
+
+function deleteCourse(code){
+  const sessions = getData(LS.sessions);
+  if(sessions.some(s=>s.courseCode===code && s.status==='active')){
+    toast('Close the active session for this course before removing it.', 'warn');
+    return;
+  }
+  if(!confirm('Remove course '+code+'? Its past attendance records are kept for reporting.')) return;
+  let courses = getData(LS.courses);
+  courses = courses.filter(c=>c.code!==code);
+  setData(LS.courses, courses);
+  toast('Course '+code+' removed.', 'success');
+  renderView(false);
+}
+
+/* =====================================================================
+   INIT
+===================================================================== */
+function init(){
+  seedIfNeeded();
+  document.getElementById('brandStudentCount').textContent = getData(LS.students).length;
+  document.getElementById('brandCourseCount').textContent = getData(LS.courses).length;
+
+  const saved = localStorage.getItem(LS.session);
+  if(saved){
+    try{
+      currentUser = JSON.parse(saved);
+      showApp();
+      return;
+    }catch(e){ /* fall through to login */ }
+  }
+  setAuthRole('student');
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
